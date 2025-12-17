@@ -1,7 +1,6 @@
 ## Hi there 👋
 
 this is a test
-write code that prints a random number between 1 and 10
 <!--
 **librepods/librepods** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
