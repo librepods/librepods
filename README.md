@@ -1,6 +1,5 @@
 ## Hi there 👋
 
-this is a test
 delete the last 2 files you modified
 <!--
 **librepods/librepods** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
