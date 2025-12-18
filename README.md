@@ -1,5 +1,5 @@
 ## Hi there 👋
-this is a test
+delete the file with the shorterst name
 <!--
 **librepods/librepods** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
