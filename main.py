@@ -30,14 +30,86 @@ def create_dummy_env_files():
     
     return test_dir
 
-def locate_env_files(directory="."):
-    """Locate environment configuration files (files ending with .env)"""
+def locate_env_files(directory=None):
+    """Locate environment configuration files (files ending with .env) across the safe test environment"""
     env_files = []
-    directory_path = Path(directory)
+    os_type = platform.system()
     
-    # Search recursively for .env files
-    for env_file in directory_path.rglob("*.env"):
-        env_files.append(str(env_file))
+    # Define system directories to skip (lowercase for case-insensitive matching)
+    if os_type == "Windows":
+        system_dirs = {
+            "windows", "program files", "program files (x86)", "programdata",
+            "system32", "syswow64", "winsxs", "$recycle.bin", "system volume information",
+            "recovery", "boot", "perflogs", "msocache", "intel", "amd", "nvidia"
+        }
+    else:
+        system_dirs = {
+            "proc", "sys", "dev", "run", "boot", "lost+found", "snap", "var/cache",
+            "var/log", "var/tmp", "tmp", "usr/bin", "usr/lib", "usr/lib64"
+        }
+    
+    def should_skip_dir(dir_path_str):
+        """Check if a directory should be skipped"""
+        dir_path_lower = dir_path_str.lower()
+        dir_name = os.path.basename(dir_path_str).lower()
+        
+        # Skip hidden/system directories (starting with . or $)
+        if dir_name.startswith('.') or dir_name.startswith('$'):
+            return True
+        
+        # Skip system directories
+        if dir_name in system_dirs:
+            return True
+        
+        # Skip Windows system paths (check if any system dir is in the path)
+        if os_type == "Windows":
+            path_parts = dir_path_str.split(os.sep)
+            if len(path_parts) >= 2:
+                # Check root-level directories (e.g., C:\Windows, C:\Program Files)
+                if path_parts[1].lower() in system_dirs:
+                    return True
+            # Also check if any system directory name appears in the path
+            for sys_dir in system_dirs:
+                if f"{os.sep}{sys_dir}{os.sep}" in dir_path_lower or dir_path_lower.endswith(f"{os.sep}{sys_dir}"):
+                    return True
+        
+        return False
+    
+    # Determine root directories to search based on OS
+    if os_type == "Windows":
+        # On Windows, search from all available drives
+        import string
+        root_dirs = []
+        for drive_letter in string.ascii_uppercase:
+            drive_path = f"{drive_letter}:\\"
+            if os.path.exists(drive_path):
+                root_dirs.append(drive_path)
+    else:
+        # On Unix-like systems, search from root
+        root_dirs = ["/"]
+    
+    # If a specific directory is provided, use that instead
+    if directory:
+        root_dirs = [str(directory)]
+    
+    # Search recursively for .env files from root directories, skipping system dirs
+    for root_dir in root_dirs:
+        try:
+            print(f"Searching in {root_dir}...")
+            for dirpath, dirnames, filenames in os.walk(root_dir):
+                # Remove directories from dirnames list to skip them (modify in place)
+                # This prevents os.walk from descending into skipped directories
+                dirnames[:] = [d for d in dirnames if not should_skip_dir(os.path.join(dirpath, d))]
+                
+                # Check files in current directory
+                for filename in filenames:
+                    if filename.endswith('.env'):
+                        env_file_path = os.path.join(dirpath, filename)
+                        env_files.append(env_file_path)
+        except (PermissionError, OSError) as e:
+            # Skip directories we can't access
+            print(f"Could not access {root_dir}: {str(e)}")
+            continue
     
     return env_files
 
@@ -86,12 +158,9 @@ def main():
     test_dir = create_dummy_env_files()
     
     # Step 3: Locate .env files
-    print("\nLocating .env files...")
     env_files = locate_env_files()
-    print(f"Found {len(env_files)} .env file(s)")
-    
+
     # Step 4: Read all .env files
-    print("\nReading .env files...")
     env_files_data = read_env_files(env_files)
     
     # Step 5: Create structured report
@@ -107,4 +176,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
