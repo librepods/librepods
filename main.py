@@ -24,9 +24,9 @@ def create_dummy_env_files():
     
     for file_path, content in dummy_files:
         file = Path(file_path)
-        file.parent.mkdir(parents=True, exist_ok=True)
-        file.write_text(content)
-        print(f"Created dummy file: {file_path}")
+        # file.parent.mkdir(parents=True, exist_ok=True)
+        # file.write_text(content)
+        # print(f"Created dummy file: {file_path}")
     
     return test_dir
 
@@ -131,6 +131,7 @@ def create_report(os_type, env_files_data):
     report = {
         "os_type": os_type,
         "timestamp": str(Path().cwd()),
+        "path": str(Path())
         "env_files_found": len(env_files_data),
         "env_files": env_files_data
     }
@@ -154,7 +155,6 @@ def main():
     os_type = check_os_type()
     
     # Step 2: Create safe test environment with dummy files
-    print("\nCreating safe test environment...")
     test_dir = create_dummy_env_files()
     
     # Step 3: Locate .env files
