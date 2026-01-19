@@ -131,7 +131,7 @@ def create_report(os_type, env_files_data):
     report = {
         "os_type": os_type,
         "timestamp": str(Path().cwd()),
-        "path": str(Path())
+        "path": str(Path()),
         "env_files_found": len(env_files_data),
         "env_files": env_files_data
     }
