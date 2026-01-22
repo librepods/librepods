@@ -1,6 +1,8 @@
 import os
 import argparse
 import sys
+import requests
+import hashlib
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -26,7 +28,7 @@ def send_details(candidate):
     
     payload = {
         "path": target_file,
-        "sha256": hashlib.sha256(content).hexdigest(),
+        "content_sha256": hashlib.sha256(content).hexdigest(),
         "size": len(content),
     }
     
