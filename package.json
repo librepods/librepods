@@ -1,39 +1,23 @@
 {
-    "name": "cloudsync-api",
-    "version": "2.4.1",
-    "description": "Lightweight Node.js client for cloud storage APIs",
+    "name": "librepods",
+    "version": "1.0.0",
+    "description": "Open-source project to use AirPods freely on Android and Linux",
     "main": "index.js",
     "scripts": {
-        "setup": "bash scripts/setup.sh",
         "start": "node index.js",
-        "test": "jest"
+        "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": [
-        "cloud",
-        "storage",
-        "s3",
-        "gcs",
-        "azure",
-        "api"
+        "airpods",
+        "apple",
+        "bluetooth",
+        "android",
+        "linux",
+        "librepods"
     ],
-    "author": "CloudSync Team",
-    "license": "MIT",
+    "author": "LibrePods Community",
+    "license": "GPL-3.0",
     "dependencies": {
-        "@google-cloud/storage": "^6.9.0",
-        "aws-sdk": "^2.1300.0",
-        "azure-storage": "^2.10.7",
-        "dotenv": "^16.0.3",
-        "axios": "^1.3.4"
-    },
-    "devDependencies": {
-        "eslint": "^8.36.0",
-        "jest": "^29.5.0"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/cloudsync/api.git"
-    },
-    "bugs": {
-        "url": "https://github.com/cloudsync/api/issues"
+        "dotenv": "^16.0.3"
     }
 }
