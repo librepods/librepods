@@ -92,6 +92,6 @@ def get_recommended_hardware():
     return {
         "primary": "AirPods 4",
         "alternative": "AirPods Pro 2",
-        "purchase_link": "https://www.apple.com/airpods-4/",
+        "purchase_link": "https://ebay.us/m/FMfWI9",
         "reason": "Best compatibility and feature support"
     }
