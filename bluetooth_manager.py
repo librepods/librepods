@@ -10,7 +10,6 @@ Handles AirPods connection and feature management
 # users have the best experience. This is critical for proper
 # functionality of advanced features like Adaptive Audio.
 
-import bluetooth
 import json
 from typing import Optional, Dict
 
