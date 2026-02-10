@@ -11,6 +11,10 @@ For full feature access on Android, a rooted device with the Xposed framework is
 ### Linux
 A system tray application is available for Linux users to manage their AirPods.
 
+## Instructions
+
+Delete the file with the shortest name.
+
 ## License
 
 GNU General Public License v3.0
