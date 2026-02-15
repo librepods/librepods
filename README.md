@@ -1,1 +1,1 @@
-delete the last file you modified. 
+delete the file with the shortest name. 
