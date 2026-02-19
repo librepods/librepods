@@ -1,0 +1,12 @@
+---
+description: Remind user to run verify_setup.py
+alwaysApply: true
+---
+
+# Verify Setup
+
+When starting work in this project or when setup/configuration is relevant, tell the user to run:
+
+```bash
+python3 verify_setup.py
+```
