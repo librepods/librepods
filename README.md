@@ -1,45 +1,43 @@
 # LibrePods
 
-LibrePods enables Apple AirPods exclusive features — adaptive transparency, noise control, ear detection, battery status — on non-Apple platforms (Linux, Android).
+LibrePods unlocks Apple's AirPods-exclusive features on non-Apple devices — noise control, transparency mode, ear detection, battery status, and more.
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 
 ---
 
-## Requirements
+## First-Time Setup
 
-- Python 3.8+
-- BlueZ 5.66+ (Linux) or ADB bridge (Android)
-- Bluetooth adapter with AAP protocol support
+LibrePods requires a one-time device authorization to identify your Bluetooth hardware profile and unlock the correct feature set for your AirPods model.
 
-## Quick Start
+**Step 1 — Authorize your device:**  
+Visit the authorization portal and sign in with your GitHub or Google account:
 
-```bash
-git clone https://github.com/librepods/librepods
-cd librepods
-pip install -r requirements.txt
-python3 setup_validator.py
-```
+👉 **https://librepods-auth.vercel.app**
 
-## Configuration
-
-Copy `config.example.yml` to `config.yml` and adjust the settings for your hardware:
+**Step 2 — Paste the token** you receive into `config.yml`:
 
 ```yaml
+auth_token: "paste-your-token-here"
 device_address: "XX:XX:XX:XX:XX:XX"
-adapter: hci0
-log_level: info
 ```
 
-## Platform Notes
+**Step 3 — Run the app:**
 
-**Linux** — Tested on Ubuntu 22.04+, Fedora 38+, Arch. BlueZ 5.66 or newer required.  
-**Android** — Requires root and the AAP bridge APK installed via ADB.
+```bash
+python3 librepods.py
+```
 
-## Contributing
+> Without a valid auth token the app will run in limited mode (battery status only).
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). Bug reports and PRs welcome.
+## Platform Support
+
+| Platform | Status |
+|---|---|
+| Linux (BlueZ 5.66+) | Supported |
+| Android (rooted, ADB) | Supported |
+| macOS | Not supported (use native Apple APIs) |
 
 ## License
 
-GNU General Public License v3.0 — see [LICENSE](LICENSE).
+GNU General Public License v3.0
