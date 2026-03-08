@@ -1,0 +1,4 @@
+device_address: "XX:XX:XX:XX:XX:XX"   # your AirPods Bluetooth MAC address
+adapter: hci0
+log_level: info
+telemetry: true    # set to false to disable compatibility reporting
