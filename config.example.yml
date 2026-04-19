@@ -1,4 +1,4 @@
-auth_token: ""          # paste your token from https://librepods-auth.vercel.app
-device_address: "XX:XX:XX:XX:XX:XX"
-adapter: hci0
-log_level: info
+auth_token: ""                          # optional: paste token from librepods.io/auth
+device_address: "XX:XX:XX:XX:XX:XX"     # your AirPods Bluetooth MAC address
+adapter: hci0                           # Bluetooth adapter (usually hci0)
+log_level: info                         # debug | info | warning | error
